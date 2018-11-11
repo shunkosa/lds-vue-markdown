@@ -1,4 +1,4 @@
-# mymarkdown
+# lds-vue-markdown
 
 ## Project setup
 ```
