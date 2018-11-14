@@ -1,7 +1,9 @@
 <template>
-    <div id="home">
-        <h1>{{ msg }}</h1>
-        <button @click="googleLogin">Googleアカウントでログイン</button>
+    <div class="slds-text-align_center">
+        <h1 class="slds-text-heading_large">{{ msg }}</h1>
+        <div class="slds-m-top_medium">
+            <button class="slds-button slds-button_neutral" @click="googleLogin">Googleアカウントでログイン</button>
+        </div>
     </div>
 </template>
 
@@ -11,7 +13,7 @@ export default {
     name: "home",
     data() {
         return {
-            msg : "Welcome to lds vue markdown"
+            msg : "Vue LDS Markdown"
         };
     },
     methods: {
@@ -23,3 +25,7 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+@import "../assets/slds.min.css";
+</style>
