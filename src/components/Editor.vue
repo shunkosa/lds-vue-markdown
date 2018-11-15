@@ -23,7 +23,8 @@
                 <div class="slds-col sld-size_1-of-6">
                     <div class="slds-text-align_center slds-p-bottom_small">
                         <button class="slds-button slds-button_neutral" @click="addMemo">Add</button>
-                        <button class="slds-button slds-button_neutral" @click="deleteSelectedMemo">Delete</button>
+                        <button class="slds-button slds-button_neutral" @click="deleteSelectedMemo" v-if="memos.length > 1">Delete</button>
+                        <button class="slds-button slds-button_neutral" @click="saveMemos">Save</button>
                     </div>
                     <ul class="slds-has-dividers_around-space">
                         <li class="slds-item" 
@@ -62,6 +63,13 @@ export default {
       selectedIndex: 0
     };
   },
+  created: function(){
+      firebase
+        .database()
+        .ref("memos/" + this.user.uid)
+        .once("value")
+        .then(result => { this.memos = result.val(); });
+  },
   components:{
       Preview: Preview
   },
@@ -75,11 +83,12 @@ export default {
     selectMemo: function(index){
         this.selectedIndex = index
     },
+    saveMemos: function(){
+        firebase.database().ref("memos/" + this.user.uid).set(this.memos);
+    },
     deleteSelectedMemo: function(){
-        if(this.memos.length > 1){
-            this.memos.splice(this.selectedIndex, 1);
-            this.selectedIndex = (this.selectedIndex > 0) ? this.selectedIndex - 1 : this.selectedIndex ;
-        }
+        this.memos.splice(this.selectedIndex, 1);
+        this.selectedIndex = (this.selectedIndex > 0) ? this.selectedIndex - 1 : this.selectedIndex ;
     },
     showFirstLine: function(text){
         return text.split(/\n/)[0];
