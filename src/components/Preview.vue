@@ -17,7 +17,8 @@ export default {
 
 <style>
 @import "../assets/github-markdown.css";
-ol, ul {
+.markdown-body ol,
+.markdown-body ul {
     list-style: unset !important;
 }
 </style>

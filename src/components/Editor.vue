@@ -21,13 +21,29 @@
             <span>logged in as : {{ user.email }}</span>
             <div class="slds-grid slds-gutters slds-p-top_medium">
                 <div class="slds-col sld-size_1-of-6">
-                    <!--TODO: List here-->
+                    <div class="slds-text-align_center slds-p-bottom_small">
+                        <button class="slds-button slds-button_neutral" @click="addMemo">Add</button>
+                        <button class="slds-button slds-button_neutral" @click="deleteSelectedMemo">Delete</button>
+                    </div>
+                    <ul class="slds-has-dividers_around-space">
+                        <li class="slds-item" 
+                        v-for="(memo, index) in memos"
+                        :key ="index" @click="selectMemo(index)" 
+                        :data-selected="index == selectedIndex">
+                            <article class="slds-tile slds-tile_board">
+                                <div class="slds-tile__detail">
+                                    <p class="slds-text-heading_small slds-truncate">{{  showFirstLine(memo.markdown)  }}</p>
+                                    <p><!--Last Modifed Date--></p>
+                                </div>
+                            </article>
+                        </li>
+                    </ul>
                 </div>
                 <div class="slds-col slds-size_5-of-12">
-                    <textarea class="slds-textarea" rows="20" v-model="markdown"/>
+                    <textarea class="slds-textarea" rows="20" v-model="memos[selectedIndex].markdown"/>
                 </div>
                 <div class="slds-col slds-size_5-of-12">
-                    <Preview :markdown="markdown" />
+                    <Preview :markdown="memos[selectedIndex].markdown" />
                 </div>
             </div>
         </div>
@@ -42,7 +58,8 @@ export default {
   props: ["user"],
   data() {
     return {
-      markdown: ""
+      memos: [{ "markdown" : ""}],
+      selectedIndex: 0
     };
   },
   components:{
@@ -50,8 +67,29 @@ export default {
   },
   methods: {
     logout: function() {
-      firebase.auth().signOut();
+        firebase.auth().signOut();
+    },
+    addMemo: function(){
+        this.memos.push({"markdown" : "untitled memo"});
+    },
+    selectMemo: function(index){
+        this.selectedIndex = index
+    },
+    deleteSelectedMemo: function(){
+        if(this.memos.length > 1){
+            this.memos.splice(this.selectedIndex, 1);
+            this.selectedIndex = (this.selectedIndex > 0) ? this.selectedIndex - 1 : this.selectedIndex ;
+        }
+    },
+    showFirstLine: function(text){
+        return text.split(/\n/)[0];
     }
   }
 };
 </script>
+
+<style>
+li[data-selected="true"]{
+    border-color:#1589ee !important;
+}
+</style>
