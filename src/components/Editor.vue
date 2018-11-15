@@ -55,7 +55,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-@import "../assets/slds.min.css";
-</style>

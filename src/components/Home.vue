@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-text-align_center">
+    <div class="slds-text-align_center slds-m-top_large">
         <h1 class="slds-text-heading_large">{{ msg }}</h1>
         <div class="slds-m-top_medium">
             <button class="slds-button slds-button_neutral" @click="googleLogin">Googleアカウントでログイン</button>
@@ -25,7 +25,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-@import "../assets/slds.min.css";
-</style>
